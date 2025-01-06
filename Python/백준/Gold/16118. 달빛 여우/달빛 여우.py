@@ -9,7 +9,8 @@ import sys; input = sys.stdin.readline
 from heapq import heappop, heappush
 
 
-def dijkstra_for_fox(distance):
+def dijkstra_for_fox():
+    distance = [float('inf')]*(N+1)
     distance[1] = 0
     hq = [(0,1)]
     while hq:
@@ -22,9 +23,11 @@ def dijkstra_for_fox(distance):
                 distance[nxt] = dist_nxt
                 heappush(hq, (dist_nxt, nxt))
 
+    return distance
 
-def dijkstra_for_wolf(distance):
+def dijkstra_for_wolf():
     # 0: 걸어서 도착, 1: 뛰어서 도착
+    distance = [[float('inf')]*2 for _ in range(N+1)]
     distance[1][0] = 0
 
     hq = [(0,1,True)]
@@ -39,6 +42,8 @@ def dijkstra_for_wolf(distance):
                 distance[nxt][is_runable] = dist_nxt
                 heappush(hq, (dist_nxt, nxt, not is_runable))
 
+    return distance
+
 
 N,M = map(int,input().split())
 
@@ -48,13 +53,7 @@ for _ in range(M):
     graph[a].append((b,c))
     graph[b].append((a,c))
 
-fox = [float('inf')] * (N+1)
-dijkstra_for_fox(fox)
+fox = dijkstra_for_fox()
+wolf = dijkstra_for_wolf()
 
-wolf = [[float('inf')]*2 for _ in range(N+1)]
-dijkstra_for_wolf(wolf)
-
-ans = 0
-for f,w in zip(fox, wolf):
-    ans += f<min(w)
-print(ans)
+print(sum(f<min(w) for f,w in zip(fox,wolf)))
