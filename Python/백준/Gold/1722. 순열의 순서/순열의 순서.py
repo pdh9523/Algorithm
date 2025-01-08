@@ -9,7 +9,6 @@ factorial을 통해 규칙을 해석하고, 규칙에 맞는 정답을 도출한
 '''
 from math import ceil
 
-
 def memo(f):
     cache = dict()
     def wrapper(*args):
@@ -20,19 +19,17 @@ def memo(f):
 
 @memo
 def factorial(num):
-    res = 1
-    for i in range(2,num+1): res *= i
-    return res
+    return 1 if num <= 1 else num * factorial(num-1)
 
 def find_permutation(K):
     numbers = [*range(1, N+1)]
     res = []
-    for i in range(N, 0, -1):
-        s = ceil(K / factorial(i-1)) - 1
+    for i in range(N-1, -1, -1):
+        s = ceil(K / factorial(i)) - 1
 
-        K -= factorial(i-1) * s
+        K -= factorial(i) * s
         res.append(numbers.pop(s))
-    return res
+    return print(*res)
 
 def find_index(*permutation):
     i = N
@@ -40,11 +37,10 @@ def find_index(*permutation):
 
     res = 1
     for num in permutation:
-        i -= 1
-        s = factorial(i)
         numbers.pop(idx:=numbers.index(num))
-        res += s*idx
-    return (res,)
+        res += idx * factorial(i:=i-1)
+    
+    return print(res)
 
 cmd = {
     1: find_permutation,
@@ -53,4 +49,4 @@ cmd = {
 
 N = int(input())
 q, *args = map(int,input().split())
-print(*cmd[q](*args))
+cmd[q](*args)
