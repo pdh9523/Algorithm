@@ -9,23 +9,27 @@ import sys; input = lambda: sys.stdin.readline().rstrip()
 from collections import deque
 
 
-def find(x):
+def find_swan():
+    for i in range(N):
+        for j in range(M):
+            if arr[i][j] == "L":
+                arr[i][j] = "."
+                return deque([(i,j)])
+
+def find_water():
     res = []
     for i in range(N):
         for j in range(M):
-            if arr[i][j] == x:
+            if arr[i][j] != "X":
                 res.append((i,j))
     return res
 
-def change(x,y):
-    arr[x][y] = "."
-
 def bfs():
-    res = []
+    res = deque()
     while swan:
         x,y = swan.popleft()
         
-        if (x,y) == other_swan: return False
+        if arr[x][y] == "L": return False
         
         for dx,dy in dr:
             nx,ny = x+dx, y+dy
@@ -36,9 +40,9 @@ def bfs():
                     res.append((nx,ny))
                     continue
                 swan.append((nx,ny))
-    return deque(res)
+    return res
 
-def ice_brake():
+def melt():
     res = []
     while water: 
         x,y = water.pop()
@@ -57,13 +61,11 @@ N,M = map(int,input().split())
 arr = [list(input()) for _ in range(N)]
 visit = [[False] * M for _ in range(N)]
 
-swan, other_swan = find("L")
-for s in swan,other_swan: change(*s)
-swan = deque([swan])
+swan = find_swan()
+water = find_water()
 
-water = find(".")
 cnt = 0
 while swan:=bfs():
-    water = ice_brake()
+    water = melt()
     cnt += 1
 print(cnt)
