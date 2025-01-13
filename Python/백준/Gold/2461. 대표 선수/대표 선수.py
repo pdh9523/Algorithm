@@ -10,24 +10,26 @@ from heapq import heappop, heappush
 
 
 N,M = map(int,input().split())
-arr = [sorted([*map(lambda x: (int(x), i), input().split())]) for i in range(N)]
-
+arr = [ ]
 hq, max_v = [], 0
 for i in range(N):
-    heappush(hq, arr[i][0])
-    max_v = max(max_v, arr[i][0][0])
+    tmp = sorted([*map(int,input().split())])
 
-ans = max_v-hq[0][0]
+    arr.append(tmp)
+    max_v = max(max_v, tmp[0])
+    heappush(hq, (tmp[0], i))
 
-pointer = {k: 0 for k in range(N)}
+ans = float('inf')
+
+pointer = [0]*N
 while True:
     value, idx = heappop(hq)
+    ans = min(ans, max_v - value)
+
     if pointer[idx] == M-1: break
 
     pointer[idx] += 1
-    heappush(hq, (arr[idx][pointer[idx]]))
-    max_v = max(max_v, arr[idx][pointer[idx]][0])
-    
-    ans = min(ans, max_v - hq[0][0])
+    heappush(hq, (arr[idx][pointer[idx]], idx))
+    max_v = max(max_v, arr[idx][pointer[idx]])
 
 print(ans)
