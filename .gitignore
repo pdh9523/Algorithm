@@ -439,5 +439,10 @@ pyrightconfig.json
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/python,java,intellij,visualstudiocode,pycharm,macos
+
+# 개인 파일
 sol.py
 Main
+Go
+# Jetbrains 관련
+**/.idea
