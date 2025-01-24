@@ -24,9 +24,10 @@ func main() {
 
 	sort.Ints(arr)
 
-	defer bw.Flush()
 	for i := range arr {
 		bw.WriteString(strconv.Itoa(arr[i]))
 		bw.WriteString("\n")
 	}
+
+	bw.Flush()
 }
