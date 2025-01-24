@@ -2,7 +2,7 @@ package main
 
 import (
 	"bufio"
-	"fmt"
+	"container/list"
 	"os"
 	"strconv"
 	"strings"
@@ -13,12 +13,10 @@ var (
 	bw = bufio.NewWriter(os.Stdout)
 )
 
-var dr = [][2]int{
-	{-1, 0},
-	{1, 0},
-	{0, 1},
-	{0, -1},
-}
+var (
+	dx = []int{0, 1, 0, -1}
+	dy = []int{1, 0, -1, 0}
+)
 
 func input() string {
 	line, _, _ := br.ReadLine()
@@ -51,33 +49,27 @@ func main() {
 		visit = append(visit, v)
 	}
 
-	q := make([]Node, 0)
-	q = append(q, Node{0, 0})
+	q := list.New()
+	q.PushBack(Node{0, 0})
 	visit[0][0] = 1
 
-	pointer := 0
-	for len(q) > 0 {
-		now := q[pointer]
-		pointer++
-		x := now.x
-		y := now.y
+	defer bw.Flush()
+	for q.Len() > 0 {
+		now := q.Remove(q.Front()).(Node)
+		x, y := now.x, now.y
 
 		if x == N-1 && y == M-1 {
-			fmt.Println(visit[x][y])
-			return
+			bw.WriteString(strconv.Itoa(visit[x][y]))
+			break
 		}
 
 		for i := 0; i < 4; i++ {
-			nx := x + dr[i][0]
-			ny := y + dr[i][1]
+			nx, ny := x+dx[i], y+dy[i]
 
-			if 0 <= nx && nx < N && 0 <= ny && ny < M {
-				if arr[nx][ny] && visit[nx][ny] == 0 {
-					q = append(q, Node{nx, ny})
-					visit[nx][ny] = visit[x][y] + 1
-				}
+			if 0 <= nx && nx < N && 0 <= ny && ny < M && arr[nx][ny] && visit[nx][ny] == 0 {
+				q.PushBack(Node{nx, ny})
+				visit[nx][ny] = visit[x][y] + 1
 			}
 		}
 	}
-	fmt.Println(-1)
 }
