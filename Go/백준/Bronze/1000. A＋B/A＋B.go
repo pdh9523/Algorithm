@@ -1,9 +1,20 @@
 package main
 
-import "fmt"
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strconv"
+	"strings"
+)
+
+var input = bufio.NewScanner(os.Stdin)
 
 func main() {
-	var a, b int
-	fmt.Scanln(&a, &b)
+	input.Scan()
+	nums := strings.Split(input.Text(), " ")
+	a, _ := strconv.Atoi(nums[0])
+	b, _ := strconv.Atoi(nums[1])
+
 	fmt.Println(a + b)
 }
