@@ -1,26 +1,23 @@
-import sys; input = sys.stdin.readline
-
-
 N = int(input())
-tmp = [*map(int,input().split())]
-arr = [*enumerate(tmp, start = 1)]
-arr.sort(key = lambda x: -x[1])
+arr = sorted([*enumerate(tmp:=[0]+[*map(int,input().split())])], key=lambda x: -x[1])
+total_seat = sum(tmp)
+required_seat = total_seat // 2
 
-required_seat = sum(tmp) // 2
-
-DP = dict()
-DP[0] = []
+DP = [0] * (total_seat+1)
+DP[0] = 1
 
 ans = 0
 for idx, nums in arr:
-    for seat in range(required_seat, -1 , -1):
-        after = seat + nums
-        if seat in DP and after not in DP:
+    for seat in range(required_seat, -1, -1):
+        party = seat+nums
+        if DP[seat] and not DP[party]:
+            ans = max(ans, party)
+            DP[party] = idx
 
-            ans = max(ans, after)
+answer = []
+while ans and DP[ans]:
+    answer.append(DP[ans])
+    ans -= tmp[DP[ans]]
 
-            DP[after] = DP[seat][:]
-            DP[after].append(idx)
-
-print(len(DP[ans]))
-print(*DP[ans])
+print(len(answer))
+print(*answer)
