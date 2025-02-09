@@ -12,19 +12,18 @@ def make_enumerated_heap(lst,idx=1):
 def U(x,y):
     x,y = map(int,(x,y))
     if x <= N:
-        arr_to_delete.add((arr[x-1],x))
         heappush(arr_hq, (y, x))
         arr[x-1]=y
     else:
-        brr_to_delete.add((brr[x-N-1],x))
         heappush(brr_hq, (y, x))
         brr[x-N-1]=y
 
 def L(*args):
-    while arr_hq[0] in arr_to_delete:
-        arr_to_delete.remove(heappop(arr_hq))
-    while brr_hq[0] in brr_to_delete:
-        brr_to_delete.remove(heappop(brr_hq))
+    while arr_hq[0][0] != arr[arr_hq[0][1]-1]:
+        heappop(arr_hq)
+    
+    while brr_hq[0][0] != brr[brr_hq[0][1]-1-N]:
+        heappop(brr_hq)
     print(arr_hq[0][1], brr_hq[0][1])
 
 cmd = {
@@ -38,9 +37,6 @@ brr = [*map(int,input().split())]
 
 arr_hq = make_enumerated_heap(arr)
 brr_hq = make_enumerated_heap(brr, N+1)
-
-arr_to_delete = set()
-brr_to_delete = set()
 
 for _ in range(int(input())):
     c, *args = input().split()
