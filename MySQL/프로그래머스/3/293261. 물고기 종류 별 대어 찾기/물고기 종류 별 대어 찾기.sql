@@ -1,0 +1,23 @@
+WITH FISH_RANK AS (
+    SELECT
+        a.ID,
+        b.FISH_NAME,
+        a.LENGTH,
+        RANK() OVER(PARTITION BY b.FISH_NAME ORDER BY a.LENGTH DESC) AS RN
+    FROM
+        FISH_INFO a
+    JOIN
+        FISH_NAME_INFO b
+        ON a.FISH_TYPE = b.FISH_TYPE
+)
+SELECT
+    ID,
+    FISH_NAME,
+    LENGTH
+FROM
+    FISH_RANK
+WHERE
+    RN = 1
+ORDER BY
+    ID
+;
