@@ -37,6 +37,7 @@ def lca(a,b):
 
     return parent[a][0]
 
+### INPUT ###
 N = int(input())
 LOG = ceil(log2(N))
 
@@ -48,14 +49,12 @@ for _ in range(N-1):
 
 visit = [False] * (N+1)
 depth = [0] * (N+1)
-parent = [[0] * (LOG) for _ in range(N+1)]
+parent = [[0] * LOG for _ in range(N+1)]
 distance = [0] * (N+1)
 
 dfs()
 build_sparse_table()
 
-M = int(input())
-for _ in range(M):
+for _ in range(int(input())):
     a,b = map(int,input().split())
-    c = lca(a,b)
-    print(distance[a] + distance[b] - distance[c]*2)
+    print(distance[a] + distance[b] - distance[lca(a,b)]*2)
