@@ -37,10 +37,6 @@ def lca(a,b):
 
     return parent[a][0]
 
-def get_dist(start,end,dist=0):
-    pass
-
-
 N = int(input())
 LOG = ceil(log2(N))
 
