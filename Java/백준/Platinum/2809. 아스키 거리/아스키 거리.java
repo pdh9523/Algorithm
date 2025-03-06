@@ -1,15 +1,3 @@
-/*
- * 아스키 커리
- * 
- * 아호-코라식
- * 
- * 최대 길이 5000인 패턴을 5000개 넣으면, 최대 2.5기가의 공간복잡도가 발생한다.
- * 이를 해소하기 위해 배치 처리를 도입하여 50개, 또는 100개씩 끊어서 처리하고
- * visit를 계산해 덮지 못하는 부분을 계산한다.
- * 
- * 배치 처리라는 개념이 미쳤네
- */
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.*;
