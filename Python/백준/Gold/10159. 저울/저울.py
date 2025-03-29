@@ -16,5 +16,5 @@ for _ in range(int(input())):
     graph[a][b] = 1
 
 floyd_warshall()
-ans = [sum(0 if graph[i][j] != float('inf') or graph[j][i] != float('inf') else 1 for j in range(1,N+1))-1 for i in range(1,N+1)]
+ans = [sum(1 if graph[i][j] == graph[j][i] == float('inf') else 0 for j in range(1,N+1))-1 for i in range(1,N+1)]
 print(*ans, sep ="\n")
