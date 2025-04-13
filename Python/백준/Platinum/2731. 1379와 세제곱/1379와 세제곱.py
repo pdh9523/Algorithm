@@ -1,15 +1,14 @@
-def backtrack(num_str, res=""):
-    global ans 
-    if len(num_str) == len(res):
-        ans = res
-
-    if ans: return
-    for i in range(10):
-        if str(int(str(i) + res)**3)[-len(res)-1:] == num_str[-len(res)-1:]:
-            backtrack(num_str, str(i)+res)
-            break
+def get_number(num_str):
+    res = 0
+    for idx, n in enumerate(num_str[::-1]):
+        target = int(n)
+        power = 10 ** idx
+        for k in range(10):
+            nxt = res + k * power
+            if nxt ** 3 // power % 10 == target:
+                res = nxt
+                break
+    return res
 
 for _ in range(int(input())):
-    ans = ""
-    backtrack(input())
-    print(int(ans))
+    print(get_number(input()))
