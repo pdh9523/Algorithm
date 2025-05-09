@@ -1,0 +1,1 @@
+print(bin(int(input())+1)[3:].replace(*"04").replace(*"17"))
