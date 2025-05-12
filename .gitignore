@@ -441,7 +441,7 @@ pyrightconfig.json
 # End of https://www.toptal.com/developers/gitignore/api/python,java,intellij,visualstudiocode,pycharm,macos
 
 # 개인 파일
-sol.py
+sol.*
 Main
 Go
 # Jetbrains 관련
