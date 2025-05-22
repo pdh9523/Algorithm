@@ -1,14 +1,13 @@
 import sys; input = sys.stdin.readline
 
 
+arr = sorted([[*map(int,input().split())] for _ in range(int(input()))])
+start,end,cost = arr[0]
+
 ans = []
-end = -1
-start = -1
-cost = float('inf')
-for s,e,c in sorted([[*map(int,input().split())] for _ in range(int(input()))]):
+for s,e,c in arr:
     if end < s:
-        if end != -1:
-            ans.append((start,end,cost))
+        ans.append((start,end,cost))
         start = s
         cost = float('inf')
     end = max(e, end)
