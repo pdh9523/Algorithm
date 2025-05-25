@@ -2,7 +2,7 @@ import sys; input = sys.stdin.readline
 
 
 N = int(input())
-arr = [a for a in zip(map(int,input().split()), map(int,input().split()))]
+arr = [*zip(map(int,input().split()), map(int,input().split()))]
 
 DP = [-1] * 100
 DP[0] = 0
