@@ -26,7 +26,7 @@ func (t *Trie) Insert(s string) {
 	for _, char := range runes {
 		idx := Ctoi(char)
 		if now.children[idx] == nil {
-			now.children[idx] = &Node{make([]*Node, 26), 0}
+			now.children[idx] = newNode()
 		}
 		now = now.children[idx]
 		now.cnt++
@@ -34,7 +34,11 @@ func (t *Trie) Insert(s string) {
 }
 
 func newTrie() *Trie {
-	return &Trie{&Node{make([]*Node, 26), 0}}
+	return &Trie{newNode()}
+}
+
+func newNode() *Node {
+	return &Node{make([]*Node, 26), 0}
 }
 
 const (
@@ -43,7 +47,7 @@ const (
 )
 
 func main() {
-	bs.Buffer(buf, 1024*1024)
+	bs.Buffer(buf, 250000)
 	bs.Split(bufio.ScanWords)
 
 	defer bw.Flush()
@@ -76,7 +80,7 @@ func main() {
 var (
 	bs  = bufio.NewScanner(os.Stdin)
 	bw  = bufio.NewWriter(os.Stdout)
-	buf = make([]byte, 1024*1024)
+	buf = make([]byte, 250000)
 )
 
 func input() string {
