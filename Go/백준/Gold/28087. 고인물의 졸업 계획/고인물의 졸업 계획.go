@@ -3,7 +3,6 @@ package main
 import (
 	"bufio"
 	"os"
-	"sort"
 	"strconv"
 )
 
@@ -39,7 +38,7 @@ func main() {
 			}
 		}
 	}
-	sort.Sort(sort.Reverse(Lectures(arr)))
+	//sort.Sort(sort.Reverse(Lectures(arr)))
 	ans := make([]int, 0)
 	now := 0
 	for i := 0; i < len(arr); i++ {
