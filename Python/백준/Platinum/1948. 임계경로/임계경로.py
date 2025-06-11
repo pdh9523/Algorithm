@@ -7,13 +7,11 @@ M = int(input())
 
 in_degree = [0] * (N+1)
 graph = [[] for _ in range(N+1)]
-reversed_graph = [[] for _ in range(N+1)]
 cnt = [[] for _ in range(N+1)]
 
 for _ in range(M):
     a,b,c = map(int,input().split())
     graph[a].append((b,c))
-    reversed_graph[b].append(a)
     in_degree[b] += 1
 start, end = map(int,input().split())
 
