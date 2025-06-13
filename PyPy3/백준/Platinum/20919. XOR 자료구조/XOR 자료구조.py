@@ -58,11 +58,9 @@ class Trie:
             res |= (bit<<i)
             now = now.child[bit]
             
-        path = []
         now = self.root
         for i in range(self.bit_length, -1, -1):
             bit = (res >> i) & 1
-            path.append((now, bit))
             now = now.child[bit]
             now.count -= 1
         
@@ -98,7 +96,7 @@ class Trie:
 
 def solve():
     N,Q = map(int,input().split())
-    trie = Trie([*map(int,input().split())])
+    trie = Trie(map(int,input().split()))
     for _ in range(Q):
         cmd,*q = map(int,input().split())
         trie.cmd(cmd, q)
