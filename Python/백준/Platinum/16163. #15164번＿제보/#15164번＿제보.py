@@ -1,17 +1,17 @@
 def manacher(word):
-    word = "#"+"#".join(word)+"#"
-    length = len(word)
+    length = len(word:="$#" + "#".join(word) + "#^")
     radius = [0] * length
-    right,mid,res = 0,0,0
-    for i in range(length):
-        if i <= right:
-            radius[i] = min(radius[2*mid-i], right-i)
-        while i - radius[i] - 1 >= 0 and i + radius[i] + 1 < length and word[i - radius[i] - 1] == word[i + radius[i] + 1]:
+    center, right = 0,0
+    for i in range(length-1):
+        if i < right: radius[i] = min(right - i, radius[2*center-i])
+        
+        while word[i - radius[i] - 1] == word[i + radius[i] + 1]:
             radius[i] += 1
-        if right < i + radius[i]:
-            right = i + radius[i]
-            mid = i
-        res += (radius[i]+1) // 2
-    return res
+        
+        if i + radius[i] > right:
+            center = i
+            right = radius[i] + i
+    
+    return sum((x+1)//2 for x in radius)
 
 print(manacher(input()))
