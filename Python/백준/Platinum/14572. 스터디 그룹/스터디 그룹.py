@@ -17,19 +17,20 @@ students.sort(key=lambda x: x.tier)
 
 ans = 0
 left,right = 0,0
-data = dict()
+cnt = [0] * (K+1)
+t = 0
 while right < N:
     for known in students[right].knowns:
-        data[known] = data.get(known, 0) + 1
+        if cnt[known] == 0: t += 1
+        cnt[known] += 1
 
     while left <= right and students[right].tier - students[left].tier > D:
         for known in students[left].knowns:
-            data[known] -= 1
-            if not data[known]: data.pop(known)
+            cnt[known] -= 1
+            if cnt[known] == 0: t -= 1
         left += 1
     right += 1
     
-    length = len(data)
-    e = (length - [*data.values()].count(right-left)) * (right-left)
+    e = (t - cnt.count(right-left)) * (right-left)
     ans = max(ans, e)
 print(ans)
