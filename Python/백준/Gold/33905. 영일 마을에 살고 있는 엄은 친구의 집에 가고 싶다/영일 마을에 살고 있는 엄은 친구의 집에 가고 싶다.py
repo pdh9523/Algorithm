@@ -9,9 +9,10 @@ for _ in range(M):
     graph[a].append(b)
     graph[b].append(a)
 
-excludes = set(map(int,input().split()))
-
 visit = [False] * (N+2)
+for ex in map(int,input().split()):
+    visit[ex] = True
+
 stack = [1]
 while stack:
     now = stack.pop()
@@ -20,10 +21,9 @@ while stack:
     visit[now] = True
 
     for nxt in graph[now]:
-        if nxt in excludes: continue
         stack.append(nxt)
 
 ans = 0
 for i in range(2,N+2):
     ans += visit[i]
-print(ans)
+print(ans - K)
