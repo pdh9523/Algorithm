@@ -10,20 +10,18 @@ for _ in range(M):
     graph[b].append(a)
 
 visit = [False] * (N+2)
-for ex in map(int,input().split()):
-    visit[ex] = True
+for ex in map(int,input().split()): visit[ex] = True
 
+ans = -1
 stack = [1]
 while stack:
     now = stack.pop()
 
     if visit[now]: continue
     visit[now] = True
+    ans += 1
 
     for nxt in graph[now]:
         stack.append(nxt)
 
-ans = 0
-for i in range(2,N+2):
-    ans += visit[i]
-print(ans - K)
+print(ans)
