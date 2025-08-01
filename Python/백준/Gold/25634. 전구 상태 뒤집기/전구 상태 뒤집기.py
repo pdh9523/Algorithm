@@ -7,11 +7,10 @@ for i in range(N):
 
     if is_on:
         on += x
-        off -= x
+        off = max(off-x, 0)
         max_v = max(max_v, -1*x)
     else:
         off += x
-        off = max(off, x)
         max_v = max(max_v, off)
 
 print(on+max_v)
