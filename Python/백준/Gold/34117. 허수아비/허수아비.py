@@ -9,7 +9,12 @@ for a in map(int,input().split()):
     heappush(hq, a)
     now += a
 
-    while len(hq) > 1 and now > K:
-        now -= heappop(hq)
+    while now > K:
+        tmp = heappop(hq)
+        if now - tmp >= K:
+            now -= tmp
+        else:
+            heappush(hq, tmp)
+            break
     
     print(-1 if now < K else len(hq), end=" ")
