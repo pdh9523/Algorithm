@@ -38,12 +38,11 @@ backtrack(trie.root)
 
 if cnt != float('inf'):
     print(cnt)
-    rev_replaces = {
+    replaces = {
         "S": "P",
         "P": "R",
         "R": "S"
     }
-    for i in range(cnt):
-        print(rev_replaces[ans[i]], end="")
+    print(*[replaces[x] for x in ans], sep="")
 else:
     print(-1)
