@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"math"
 	"os"
 	"strconv"
 )
@@ -10,7 +11,7 @@ const SIZE = 2000001
 
 func getPrime() []bool {
 	isPrime := make([]bool, SIZE)
-	for i := 2; i < 1415; i++ {
+	for i := 2; i < int(math.Sqrt(SIZE))+1; i++ {
 		if isPrime[i] {
 			continue
 		}
@@ -29,29 +30,25 @@ func main() {
 
 	N := input()
 	arr := make([]int, N)
-	ans := 0
+
 	for i := 0; i < N; i++ {
 		arr[i] = input()
-		if arr[i]%2 == 0 {
-			ans++
-		}
 	}
-	ans = max(ans, N-ans)
-	check := make([]int, SIZE)
-	cnt := make([]int, SIZE)
-	for i := 3; i < SIZE; i++ {
+	ans := 0
+	for i := 2; i < SIZE; i++ {
 		if isPrime[i] {
 			continue
 		}
+		if ans*i > arr[N-1] {
+			break
+		}
+		data := make(map[int]int)
 		for j := 0; j < N; j++ {
 			tmp := arr[j] % i
-			if check[tmp] != i {
-				check[tmp] = i
-				cnt[tmp] = 1
-			} else {
-				cnt[tmp]++
-				ans = max(ans, cnt[tmp])
-			}
+			data[tmp]++
+		}
+		for _, v := range data {
+			ans = max(ans, v)
 		}
 	}
 
