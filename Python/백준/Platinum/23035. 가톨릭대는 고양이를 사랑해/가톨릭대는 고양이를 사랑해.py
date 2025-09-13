@@ -1,5 +1,5 @@
 import sys; input = sys.stdin.readline
-from bisect import bisect_left
+
 
 def binary_search(pos):
     start,end = 0, len(DP)-1
@@ -16,11 +16,10 @@ def compare(a,b):
     return a[0] <= b[0] and a[1] <= b[1]
 
 size = [*map(int,input().split())]
-arr = sorted([[*map(int,input().split())] for _ in range(int(input()))])
+arr = sorted([pos for _ in range(int(input())) if compare((pos:=[*map(int,input().split())]), size)])
 
 DP = []
 for pos in arr:
-    if not compare(pos, size): continue
     if not DP or compare(DP[-1], pos):
         DP.append(pos)
     else:
