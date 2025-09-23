@@ -20,14 +20,7 @@ class User:
         self.armor = 0
         self.exp = 0
         self.hp = self.max_hp
-        self.accessary_count = 0
-        self.HR = False
-        self.RE = False
-        self.CO = False
-        self.EX = False
-        self.DX = False
-        self.HU = False
-        self.CU = False
+        self.accessaries = set()
         self.status = "Press any key to continue."    
 
     def check_turn(self):        
@@ -40,10 +33,10 @@ class User:
             self.hp = self.max_hp
     
     def _win(self, dmg, exp):
-        w = 1.2 if self.EX else 1
+        w = 1.2 if "EX" in self.accessaries else 1
         self.hp -= dmg
         self.exp += int(exp*w)
-        self.hp += 3 if self.HR else 0
+        self.hp += 3 if "HR" in self.accessaries else 0
         self.hp = min(self.hp, self.max_hp)
         return True
 
@@ -57,14 +50,14 @@ class User:
         user_def = self.defense + self.armor
 
         weight = 1
-        if self.CO:
-            weight += 1 + self.DX
+        if "CO" in self.accessaries:
+            weight += 1 + ("DX" in self.accessaries)
         
         monster.hp -= max(1, user_atk * weight - monster.defense)
         if monster.hp <= 0: 
             return self._win(0, monster.exp)
         
-        if self.HU and is_boss:
+        if "HU" in self.accessaries and is_boss:
             self.hp = self.max_hp
         else:
             self.hp -= max(1, monster.attack - user_def)
@@ -80,35 +73,15 @@ class User:
         return self._win(max(1, monster.attack - user_def) * (user_hit-1), monster.exp)
 
     def trapped(self):
-        self.hp -= 1 if self.DX else 5
+        self.hp -= 1 if "DX" in self.accessaries else 5
         if self.hp <= 0:
             self._dead("SPIKE TRAP")
 
     def get_item(self, category, value):
         if category == "O":
-            if self.accessary_count > 3:
-                return
-            if value=="HR":
-                self.accessary_count += 1-self.HR
-                self.HR=True
-            elif value=="RE":
-                self.accessary_count += 1-self.RE
-                self.RE=True
-            elif value=="CO":
-                self.accessary_count += 1-self.CO
-                self.CO=True
-            elif value=="EX":
-                self.accessary_count += 1-self.EX
-                self.EX=True
-            elif value=="DX":
-                self.accessary_count += 1-self.DX
-                self.DX=True
-            elif value=="HU":
-                self.accessary_count += 1-self.HU
-                self.HU=True
-            elif value=="CU":
-                self.accessary_count += 1-self.CU
-                self.CU=True
+            if len(self.accessaries) > 3: return
+            self.accessaries.add(value)
+            
         elif category == "W":
             self.weapon = int(value)
         elif category =="A":
@@ -187,11 +160,10 @@ for i,c in enumerate(command, start=1):
         
     user.check_turn()
     if user.hp <= 0:
-        if user.RE:
+        if "RE" in user.accessaries:
             user.hp = user.max_hp
             x,y = sx,sy
-            user.accessary_count -= 1
-            user.RE = False
+            user.accessaries.discard("RE")
             user.status = "Press any key to continue."
         else:
             break
