@@ -1,7 +1,3 @@
-'''
-필요 경험치는 5*current_level
-남는 경험치는 버려진다
-'''
 import sys; input = lambda: sys.stdin.readline().rstrip()
 
 
@@ -66,9 +62,7 @@ class User:
         
         monster.hp -= max(1, user_atk * weight - monster.defense)
         if monster.hp <= 0: 
-            self._win(0, monster.exp)
-            return True
-        
+            return self._win(0, monster.exp)
         
         if self.HU and is_boss:
             self.hp = self.max_hp
@@ -86,8 +80,7 @@ class User:
         return self._win(max(1, monster.attack - user_def) * (user_hit-1), monster.exp)
 
     def trapped(self):
-        if self.DX: self.hp -= 1
-        else: self.hp -= 5
+        self.hp -= 1 if self.DX else 5
         if self.hp <= 0:
             self._dead("SPIKE TRAP")
 
@@ -95,31 +88,31 @@ class User:
         if category == "O":
             if self.accessary_count > 3:
                 return
-            if value=="HR" and not self.HR:
-                self.accessary_count += 1
+            if value=="HR":
+                self.accessary_count += 1-self.HR
                 self.HR=True
-            elif value=="RE" and not self.RE:
-                self.accessary_count += 1
+            elif value=="RE":
+                self.accessary_count += 1-self.RE
                 self.RE=True
-            elif value=="CO" and not self.CO:
-                self.accessary_count += 1
+            elif value=="CO":
+                self.accessary_count += 1-self.CO
                 self.CO=True
-            elif value=="EX" and not self.EX:
-                self.accessary_count += 1
+            elif value=="EX":
+                self.accessary_count += 1-self.EX
                 self.EX=True
-            elif value=="DX" and not self.DX:
-                self.accessary_count += 1
+            elif value=="DX":
+                self.accessary_count += 1-self.DX
                 self.DX=True
-            elif value=="HU" and not self.HU:
-                self.accessary_count += 1
+            elif value=="HU":
+                self.accessary_count += 1-self.HU
                 self.HU=True
-            elif value=="CU" and not self.CU:
-                self.accessary_count += 1
+            elif value=="CU":
+                self.accessary_count += 1-self.CU
                 self.CU=True
         elif category == "W":
-            self.weapon = value
+            self.weapon = int(value)
         elif category =="A":
-            self.armor = value
+            self.armor = int(value)
 
     def get_info(self):
         print(f"LV : {self.level}")
@@ -162,8 +155,6 @@ for _ in range(monster_cnt):
 
 for _ in range(box_cnt):
     x,y,category,value = input().split()
-    if category != "O":
-        value = int(value)
     x,y = int(x)-1, int(y)-1
     info_map[x][y] = (category, value)
 
