@@ -1,14 +1,8 @@
-from math import isqrt
-
-
-def is_square(num):
-    return isqrt(num) ** 2 == num
-
-def convert(char):
-    for i in range(len(char)):
-        for j in range(i+1,len(char)+1):
-            if is_square(int(char[i:j])):
-                return convert((str(int(char) // (10**(len(char)-j))+1) + "2"*(len(char)-j)))
-    return char
-
-print(convert(input()))
+def f(num):
+    return int(num**0.5)**2==num
+def c(x):
+    for i in range(len(x)):
+        for j in range(i+1,len(x)+1):
+            if f(int(x[i:j])):return c((str(int(x)//(10**(len(x)-j))+1)+"2"*(len(x)-j)))
+    return x
+print(c(input()))
