@@ -1,0 +1,1 @@
+print("Hobanwoo" if input()=="3" else "Sangho")
