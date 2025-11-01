@@ -59,19 +59,6 @@ func main() {
 		points[i] = Pos{input(), input()}
 	}
 
-	graph := make([][]Node, N)
-	for i := 0; i < N; i++ {
-		graph[i] = make([]Node, 0)
-	}
-	for i := 0; i < N-1; i++ {
-		for j := i + 1; j < N; j++ {
-			dist := getDist(points[i], points[j])
-			if dist >= C {
-				graph[i] = append(graph[i], Node{j, dist})
-				graph[j] = append(graph[j], Node{i, dist})
-			}
-		}
-	}
 	ans := 0
 	hq := &HeapQ{}
 	heap.Init(hq)
@@ -83,8 +70,14 @@ func main() {
 		if !visit[now] {
 			visit[now] = true
 			ans += cost
-			for _, nxt := range graph[now] {
-				heap.Push(hq, nxt)
+			for nxt := 0; nxt < N; nxt++ {
+				if visit[nxt] {
+					continue
+				}
+				dist := getDist(points[now], points[nxt])
+				if dist >= C {
+					heap.Push(hq, Node{nxt, dist})
+				}
 			}
 		}
 	}
