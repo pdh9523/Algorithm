@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"container/heap"
+	"math"
 	"os"
 	"strconv"
 )
@@ -64,6 +65,10 @@ func main() {
 	heap.Init(hq)
 	heap.Push(hq, Node{0, 0})
 	visit := make([]bool, N)
+	check := make([]int, N)
+	for i := 0; i < N; i++ {
+		check[i] = math.MaxInt
+	}
 	for hq.Len() > 0 {
 		now, cost := heap.Pop(hq).(Node).unpack()
 
@@ -75,8 +80,9 @@ func main() {
 					continue
 				}
 				dist := getDist(points[now], points[nxt])
-				if dist >= C {
+				if dist >= C && dist < check[nxt] {
 					heap.Push(hq, Node{nxt, dist})
+					check[nxt] = dist
 				}
 			}
 		}
