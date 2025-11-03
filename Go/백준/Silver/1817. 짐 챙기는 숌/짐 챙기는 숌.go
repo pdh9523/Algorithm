@@ -11,21 +11,17 @@ func main() {
 	defer bw.Flush()
 
 	N, M := input(), input()
-	arr := make([]int, N)
 	if N == 0 {
 		bw.WriteString("0")
 		return
 	}
 
-	for i := 0; i < N; i++ {
-		arr[i] = input()
-	}
-
 	ans, now := 0, 0
-	for _, a := range arr {
-		now += a
+	for i := 0; i < N; i++ {
+		num := input()
+		now += num
 		if now > M {
-			now = a
+			now = num
 			ans++
 		}
 	}
