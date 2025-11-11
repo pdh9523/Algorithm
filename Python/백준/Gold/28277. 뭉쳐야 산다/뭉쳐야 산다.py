@@ -16,7 +16,7 @@ def sout(x):
 
 N,Q = map(int,input().split())
 
-sets = [set() for _ in range(N+1)]
+sets = [None for _ in range(N+1)]
 for i in range(1, N+1):
     sets[i] = get_set(map(int,input().split()))
 
