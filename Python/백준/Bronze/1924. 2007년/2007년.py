@@ -1,0 +1,1 @@
+import datetime;print(["MON","TUE","WED","THU","FRI","SAT","SUN"][datetime.date(2007,*map(int,input().split())).weekday()])
