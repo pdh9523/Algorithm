@@ -1,5 +1,5 @@
 import sys; input = sys.stdin.readline
-from bisect import bisect_left, bisect_right
+from bisect import bisect_left
 
 
 N,K,X = map(int,input().split())
@@ -17,6 +17,7 @@ for i in range(2,N+1):
 
 ans = 0
 for i in range(N):
+    if ans != 0 and ans >= N-i: break
     left = left_sum[i]
     b = bisect_left(right_sum, K-left)
     
