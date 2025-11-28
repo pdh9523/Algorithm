@@ -1,18 +1,11 @@
 import sys; input = sys.stdin.readline
-from functools import cmp_to_key
 
-
-def cmp(a,b):
-    ap, ar = a[1], a[2]
-    bp, br = b[1], b[2]
-    if ap * br > bp * ar:
-        return -1
-    elif ap * br < bp * ar:
-        return 1
-    return 0
 
 N,T = map(int,input().split())
-arr = sorted([x for x in zip(map(int,input().split()), map(int,input().split()), map(int,input().split()))], key=cmp_to_key(cmp))
+arr = sorted(
+    [x for x in zip(*[map(int,input().split()) for _ in range(3)])], 
+    key=lambda x: x[2]/x[1]
+    )
 
 DP = [0] * (T+1)
 for m,p,r in arr:
