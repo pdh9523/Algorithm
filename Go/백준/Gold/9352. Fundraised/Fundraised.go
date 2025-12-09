@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"os"
 	"strconv"
+    "fmt"
 )
 
 func max(args ...int) int {
@@ -37,7 +38,7 @@ func solve() {
 			DP[a] = max(DP[a], DP[a-c]+v)
 		}
 	}
-	bw.WriteString(strconv.Itoa(DP[X]) + "\n")
+    fmt.Fprintln(bw, DP[X])
 }
 
 func main() {
