@@ -91,11 +91,18 @@ func dijkstra(size int, points []Point, notPrimes []bool) int {
 	for hq.Len() > 0 {
 		now, distNow := heap.Pop(hq).(Node).unpack()
 
+		if now == 1 {
+			return distNow
+		}
+
 		if distNow > distance[now] {
 			continue
 		}
 
 		for nxt, point := range points {
+			if now == nxt {
+				continue
+			}
 			cost := getDistance(points[now], point)
 			if !notPrimes[cost] && distance[nxt] > distNow+cost {
 				distance[nxt] = distNow + cost
