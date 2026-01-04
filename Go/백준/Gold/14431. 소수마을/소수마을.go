@@ -65,7 +65,7 @@ func getPrimes() map[int]bool {
 	isNotPrime := make([]bool, size+1)
 	for i := 2; i < size+1; i++ {
 		if !isNotPrime[i] {
-			for j := i + i; j < size+1; j += i {
+			for j := i * i; j < size+1; j += i {
 				isNotPrime[j] = true
 			}
 		}
