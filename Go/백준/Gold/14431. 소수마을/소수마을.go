@@ -55,14 +55,18 @@ func newPoint(x, y int) Point {
 }
 
 func getDistance(a, b Point) int {
-	return int(math.Sqrt((math.Pow(float64(a.x-b.x), 2) + math.Pow(float64(a.y-b.y), 2))))
+	dx := a.x - b.x
+	dy := a.y - b.y
+	return int(math.Sqrt(float64(dx*dx + dy*dy)))
 }
 
-func getPrimes() map[int]bool {
+func getPrimes() []bool {
 	// getDistance((-3000,-3000), (3000,3000)) ~= 8485
 	size := 8490
 
 	isNotPrime := make([]bool, size+1)
+	isNotPrime[0] = true
+	isNotPrime[1] = true
 	for i := 2; i < size+1; i++ {
 		if !isNotPrime[i] {
 			for j := i * i; j < size+1; j += i {
@@ -70,14 +74,7 @@ func getPrimes() map[int]bool {
 			}
 		}
 	}
-
-	res := make(map[int]bool)
-	for i := 2; i < size+1; i++ {
-		if !isNotPrime[i] {
-			res[i] = true
-		}
-	}
-	return res
+	return isNotPrime
 }
 
 func dijkstra(size int, graph [][]Node) int {
@@ -126,7 +123,7 @@ func main() {
 	for i := 2; i < N+2; i++ {
 		points[i] = newPoint(intInput(), intInput())
 	}
-	primes := getPrimes()
+	notPrimes := getPrimes()
 
 	graph := make([][]Node, N+2)
 	for i := 0; i < N+2; i++ {
@@ -136,7 +133,7 @@ func main() {
 	for i := 0; i < N+2; i++ {
 		for j := i + 1; j < N+2; j++ {
 			dist := getDistance(points[i], points[j])
-			if _, exists := primes[dist]; exists {
+			if !notPrimes[dist] {
 				graph[i] = append(graph[i], Node{j, dist})
 				graph[j] = append(graph[j], Node{i, dist})
 			}
