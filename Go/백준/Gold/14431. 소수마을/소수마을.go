@@ -77,7 +77,7 @@ func getPrimes() []bool {
 	return isNotPrime
 }
 
-func dijkstra(size int, graph [][]Node) int {
+func dijkstra(size int, points []Point, notPrimes []bool) int {
 	hq := &HeapQ{}
 	heap.Init(hq)
 	heap.Push(hq, Node{0, 0})
@@ -95,11 +95,11 @@ func dijkstra(size int, graph [][]Node) int {
 			continue
 		}
 
-		for _, nxt := range graph[now] {
-			idxNxt, costNxt := nxt.unpack()
-			if distance[idxNxt] > distNow+costNxt {
-				distance[idxNxt] = distNow + costNxt
-				heap.Push(hq, Node{idxNxt, distance[idxNxt]})
+		for nxt, point := range points {
+			cost := getDistance(points[now], point)
+			if !notPrimes[cost] && distance[nxt] > distNow+cost {
+				distance[nxt] = distNow + cost
+				heap.Push(hq, Node{nxt, distance[nxt]})
 			}
 		}
 	}
@@ -124,22 +124,7 @@ func main() {
 		points[i] = newPoint(intInput(), intInput())
 	}
 	notPrimes := getPrimes()
-
-	graph := make([][]Node, N+2)
-	for i := 0; i < N+2; i++ {
-		graph[i] = make([]Node, 0)
-	}
-
-	for i := 0; i < N+2; i++ {
-		for j := i + 1; j < N+2; j++ {
-			dist := getDistance(points[i], points[j])
-			if !notPrimes[dist] {
-				graph[i] = append(graph[i], Node{j, dist})
-				graph[j] = append(graph[j], Node{i, dist})
-			}
-		}
-	}
-	fmt.Fprintln(bw, dijkstra(N+2, graph))
+	fmt.Fprintln(bw, dijkstra(N+2, points, notPrimes))
 }
 
 var (
