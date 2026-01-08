@@ -21,13 +21,10 @@ def bfs(now=0):
     sx,sy = position[now]
     ex,ey = position[now+1]
 
-    q = deque([(sx,sy)])
-
-    visit = [[-1]*M for _ in range(N)]
-    visit[sx][sy] = 0
+    q = deque([(sx,sy,0)])
 
     while q:
-        x,y = q.popleft()
+        x,y,cnt = q.popleft()
 
         if (x,y) == (ex,ey): break
 
@@ -36,18 +33,17 @@ def bfs(now=0):
 
             if 0 <= nx < N and 0 <= ny < M:
                 if arr[nx][ny] == "X": continue
-                if visit[nx][ny] != -1: continue
+                if visit[nx][ny] == now: continue
 
-                visit[nx][ny] = visit[x][y] + 1
-                q.append((nx,ny))
+                visit[nx][ny] = now
+                q.append((nx,ny,cnt+1))
     
-    res = visit[ex][ey]
-    del visit
-    return res + bfs(now+1)
+    return cnt + bfs(now+1)
 
 
 N,M,K = map(int,input().split())
 arr = [input() for _ in range(N)]
 position = findAll()
 
+visit = [[-1]*M for _ in range(N)]
 print(bfs())
