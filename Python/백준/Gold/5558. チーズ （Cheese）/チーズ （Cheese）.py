@@ -22,28 +22,24 @@ def bfs(now=0):
     ex,ey = position[now+1]
 
     q = deque([(sx,sy,0)])
-
+    visit[sx][sy] = now
     while q:
         x,y,cnt = q.popleft()
 
-        if (x,y) == (ex,ey): break
+        if (x,y) == (ex,ey):
+            return cnt + bfs(now+1)
 
         for dx,dy in dr:
             nx,ny = x+dx, y+dy
 
             if 0 <= nx < N and 0 <= ny < M:
-                if arr[nx][ny] == "X": continue
-                if visit[nx][ny] == now: continue
-
+                if visit[nx][ny] >= now: continue
                 visit[nx][ny] = now
                 q.append((nx,ny,cnt+1))
-    
-    return cnt + bfs(now+1)
-
 
 N,M,K = map(int,input().split())
 arr = [input() for _ in range(N)]
 position = findAll()
 
-visit = [[-1]*M for _ in range(N)]
+visit = [[K if arr[i][j] == "X" else -1 for j in range(M)] for i in range(N)]
 print(bfs())
