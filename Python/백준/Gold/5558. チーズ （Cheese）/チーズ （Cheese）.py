@@ -1,4 +1,4 @@
-import sys; input = sys.stdin.readline
+import sys; input = lambda: sys.stdin.readline().rstrip()
 from collections import deque
 
 
@@ -23,7 +23,8 @@ def bfs(now=0):
 
     q = deque([(sx,sy)])
 
-    visit = [[0]*M for _ in range(N)]
+    visit = [[-1]*M for _ in range(N)]
+    visit[sx][sy] = 0
 
     while q:
         x,y = q.popleft()
@@ -35,12 +36,13 @@ def bfs(now=0):
 
             if 0 <= nx < N and 0 <= ny < M:
                 if arr[nx][ny] == "X": continue
-                if visit[nx][ny]: continue
+                if visit[nx][ny] != -1: continue
 
                 visit[nx][ny] = visit[x][y] + 1
                 q.append((nx,ny))
     
     res = visit[ex][ey]
+    del visit
     return res + bfs(now+1)
 
 
