@@ -1,6 +1,25 @@
 import sys; input = sys.stdin.readline
-from heapq import heappop,heappush
 
+def mst_kruskal(size, edges):
+    def find(x):
+        if parents[x] != x:
+            parents[x] = find(parents[x])
+        return parents[x]
+    
+    def union(x,y):
+        x = find(x)
+        y = find(y)
+        if x > y: x,y = y,x
+        parents[y] = x
+    
+    parents = [*range(size+1)]
+    edges.sort(key=lambda x:x[2])
+    res = 0
+    for a,b,c in edges:
+        if not find(a) == find(b):
+            union(a,b)
+            res += c
+    return res
 
 N,M = map(int,input().split())
 arr = [0] * (N+1)
@@ -13,25 +32,9 @@ for i in range(1,N+1):
         tmp = c
     arr[i] = c
 
-graph = [[] for _ in range(N+1)]
-
+edges = []
 for _ in range(M):
     a,b,c = map(int,input().split())
-    graph[a].append((2*c+arr[a]+arr[b], b))
-    graph[b].append((2*c+arr[a]+arr[b], a))
+    edges.append([a,b,2*c+arr[a]+arr[b]])
 
-visit = [False] * (N+1)
-hq = [(0,start)]
-ans = arr[start]
-while hq:
-    cost, now = heappop(hq)
-
-    if visit[now]: continue
-
-    visit[now] = True
-    ans += cost
-
-    for nxt in graph[now]:
-        heappush(hq, nxt)
-
-print(ans)
+print(mst_kruskal(N, edges) + arr[start])
