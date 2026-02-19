@@ -12,9 +12,9 @@ for i in range(K):
     graph[a][b] = max(graph[a].get(b, 0), c)
 
 for now in range(1,N+1):
-    for nxt, cost in graph[now].items():
-        for i in range(1,M):
-            if DP[now][i-1] == -1: continue
+    for i in range(1,M):
+        if DP[now][i-1] == -1: continue
+        for nxt, cost in graph[now].items():
             DP[nxt][i] = max(DP[nxt][i], DP[now][i-1] + cost)
 
 print(max(DP[-1]))
