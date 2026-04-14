@@ -1,7 +1,7 @@
 import sys; input = sys.stdin.readline
 
 def merge(a,b):
-    return [a[0]+b[0], a[1]+b[1]]
+    return a+b
 
 class SegmentTree:
     def __init__(self, arr, merge=merge):
@@ -37,18 +37,13 @@ class SegmentTree:
         return self._merge(ret_l, ret_r)
     
 N = int(input())
-arr = [*map(int,input().split())]
-tree = SegmentTree([[0,0] for _ in range(N)])
-
-for i in range(N):
-    tmp = [0,0]
-    tmp[arr[i]%2] += 1
-    tree.set(i, tmp)
+arr = [*map(lambda x: int(x)%2,input().split())]
+tree = SegmentTree(arr)
 
 cmd = {
-    1: lambda x,y: tree.set(x, [0,1] if y%2 else [1,0]),
-    2: lambda x,y: print(tree.query(x,y)[0]),
-    3: lambda x,y: print(tree.query(x,y)[1])
+    1: lambda x,y: tree.set(x, y%2),
+    2: lambda x,y: print(y-x-tree.query(x,y)),
+    3: lambda x,y: print(tree.query(x,y))
 }
 for _ in range(int(input())):
     a,b,c = map(int,input().split())
